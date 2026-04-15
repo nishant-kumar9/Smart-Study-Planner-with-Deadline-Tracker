@@ -1,0 +1,80 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* ✅ FIXES ALL SPACING */
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+}
+
+.login-card input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.login-btn {
+  width: 100%;
+  height: 42px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.error-text {
+  min-height: 18px;
+  margin: 0;
+  color: red;
+  font-size: 14px;
+}
+
+.bottom-text {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.bottom-text span {
+  color: #3b82f6;
+  cursor: pointer;
+}
