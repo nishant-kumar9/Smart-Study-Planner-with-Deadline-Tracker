@@ -1,0 +1,19 @@
+.profile-container {
+  padding: 20px;
+  color: white;
+}
+
+.profile-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.profile-card h2 {
+  margin-bottom: 10px;
+}
+
+.profile-card p {
+  margin: 6px 0;
+}
