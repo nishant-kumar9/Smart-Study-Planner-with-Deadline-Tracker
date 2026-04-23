@@ -20,6 +20,9 @@
   --brand: #49a4ff;
   --brand-soft: rgba(73, 164, 255, 0.16);
   --brand-soft-text: #9bcfff;
+  --priority-high: #f87171;
+  --priority-medium: #fbbf24;
+  --priority-low: #4ade80;
   --button-muted-bg: rgba(20, 31, 49, 0.8);
   --button-muted-hover: var(--surface-3);
   --button-muted-text: var(--text-soft);
@@ -58,6 +61,9 @@
   --brand: #276ef1;
   --brand-soft: rgba(39, 110, 241, 0.12);
   --brand-soft-text: #276ef1;
+  --priority-high: #ef4444;
+  --priority-medium: #f59e0b;
+  --priority-low: #22c55e;
   --button-muted-bg: #ffffff;
   --button-muted-hover: #f1f5f9;
   --button-muted-text: #334155;

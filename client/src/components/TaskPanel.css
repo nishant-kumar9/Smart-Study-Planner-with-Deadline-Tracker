@@ -58,7 +58,7 @@
 }
 
 .calendar-task-card.overdue {
-  border-color: rgba(255, 93, 113, 0.68);
+  border-color: color-mix(in srgb, var(--danger) 68%, var(--border));
 }
 
 .task-complete-toggle {
@@ -83,8 +83,8 @@
 }
 
 .task-complete-toggle input:checked + .checkmark {
-  border-color: rgba(57, 209, 157, 0.9);
-  background: linear-gradient(160deg, #2ca97c, #39d19d);
+  border-color: color-mix(in srgb, var(--success) 90%, var(--border));
+  background: linear-gradient(160deg, color-mix(in srgb, var(--success) 84%, white), color-mix(in srgb, var(--success) 82%, black));
 }
 
 .task-complete-toggle input:checked + .checkmark::after {
@@ -94,7 +94,7 @@
   top: 1px;
   width: 4px;
   height: 8px;
-  border: solid #05201a;
+  border: solid #ffffff;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -127,21 +127,21 @@
 }
 
 .priority-badge.high {
-  color: #ffdbe0;
-  border-color: rgba(255, 93, 113, 0.6);
-  background: rgba(114, 22, 36, 0.4);
+  color: var(--priority-high);
+  border-color: color-mix(in srgb, var(--priority-high) 60%, var(--border));
+  background: color-mix(in srgb, var(--priority-high) 12%, transparent);
 }
 
 .priority-badge.medium {
-  color: #ffe9c1;
-  border-color: rgba(255, 194, 83, 0.56);
-  background: rgba(120, 82, 26, 0.36);
+  color: var(--priority-medium);
+  border-color: color-mix(in srgb, var(--priority-medium) 60%, var(--border));
+  background: color-mix(in srgb, var(--priority-medium) 12%, transparent);
 }
 
 .priority-badge.low {
-  color: #cffbea;
-  border-color: rgba(57, 209, 157, 0.48);
-  background: rgba(21, 83, 65, 0.35);
+  color: var(--priority-low);
+  border-color: color-mix(in srgb, var(--priority-low) 60%, var(--border));
+  background: color-mix(in srgb, var(--priority-low) 12%, transparent);
 }
 
 .deadline-text {
@@ -149,9 +149,9 @@
 }
 
 .overdue-badge {
-  color: #ffd5db;
-  border-color: rgba(255, 93, 113, 0.72);
-  background: rgba(114, 22, 36, 0.5);
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 72%, var(--border));
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
 }
 
 .calendar-empty-state {

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-const THEME_KEY = "smart-study-planner-theme";
+const THEME_KEY = "theme";
+const LEGACY_THEME_KEY = "smart-study-planner-theme";
 
 const ThemeContext = createContext(null);
 
@@ -10,13 +11,23 @@ export function ThemeProvider({ children }) {
       return "dark";
     }
 
-    return localStorage.getItem(THEME_KEY) || "dark";
+    return localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY) || "dark";
   });
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
+    const root = document.documentElement;
+    const body = document.body;
+
+    root.dataset.theme = theme;
+    root.classList.toggle("dark", theme === "dark");
+    root.classList.toggle("light", theme === "light");
+    body.classList.toggle("dark", theme === "dark");
+    body.classList.toggle("light", theme === "light");
+    root.style.colorScheme = theme;
+    body.style.colorScheme = theme;
+
     localStorage.setItem(THEME_KEY, theme);
+    localStorage.setItem(LEGACY_THEME_KEY, theme);
   }, [theme]);
 
   const value = useMemo(
