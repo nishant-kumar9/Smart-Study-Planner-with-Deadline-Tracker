@@ -1,0 +1,171 @@
+.task-panel-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-bottom: 0.85rem;
+}
+
+.task-panel-top h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.12rem;
+}
+
+.today-label {
+  color: #56dfb7;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.add-task-btn {
+  border-radius: 0.74rem;
+  border: 1px solid rgba(97, 171, 255, 0.4);
+  background: rgba(35, 74, 124, 0.3);
+  color: #d8ebff;
+  padding: 0.52rem 0.78rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.add-task-btn:hover {
+  background: rgba(53, 102, 167, 0.45);
+  border-color: rgba(110, 184, 255, 0.66);
+}
+
+.calendar-task-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.calendar-task-card {
+  border: 1px solid rgba(127, 158, 203, 0.24);
+  border-radius: 0.84rem;
+  padding: 0.74rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.7rem;
+  background: rgba(12, 21, 36, 0.82);
+}
+
+.calendar-task-card.completed {
+  opacity: 0.74;
+}
+
+.calendar-task-card.completed h3 {
+  text-decoration: line-through;
+}
+
+.calendar-task-card.overdue {
+  border-color: rgba(255, 93, 113, 0.68);
+}
+
+.task-complete-toggle {
+  position: relative;
+  margin-top: 0.15rem;
+  display: inline-flex;
+}
+
+.task-complete-toggle input {
+  opacity: 0;
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+}
+
+.checkmark {
+  width: 1.02rem;
+  height: 1.02rem;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(122, 157, 207, 0.7);
+  background: rgba(16, 28, 48, 0.9);
+}
+
+.task-complete-toggle input:checked + .checkmark {
+  border-color: rgba(57, 209, 157, 0.9);
+  background: linear-gradient(160deg, #2ca97c, #39d19d);
+}
+
+.task-complete-toggle input:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid #05201a;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.task-main-content h3 {
+  font-size: 0.96rem;
+}
+
+.task-main-content p {
+  color: var(--text-soft);
+  font-size: 0.83rem;
+  margin-top: 0.08rem;
+}
+
+.task-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.36rem;
+  margin-top: 0.4rem;
+}
+
+.priority-badge,
+.overdue-badge,
+.deadline-text {
+  border-radius: 999px;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.52rem;
+  border: 1px solid rgba(127, 158, 203, 0.24);
+}
+
+.priority-badge.high {
+  color: #ffdbe0;
+  border-color: rgba(255, 93, 113, 0.6);
+  background: rgba(114, 22, 36, 0.4);
+}
+
+.priority-badge.medium {
+  color: #ffe9c1;
+  border-color: rgba(255, 194, 83, 0.56);
+  background: rgba(120, 82, 26, 0.36);
+}
+
+.priority-badge.low {
+  color: #cffbea;
+  border-color: rgba(57, 209, 157, 0.48);
+  background: rgba(21, 83, 65, 0.35);
+}
+
+.deadline-text {
+  color: #b9d4f5;
+}
+
+.overdue-badge {
+  color: #ffd5db;
+  border-color: rgba(255, 93, 113, 0.72);
+  background: rgba(114, 22, 36, 0.5);
+}
+
+.calendar-empty-state {
+  min-height: 210px;
+  border-radius: 0.84rem;
+  border: 1px dashed rgba(95, 179, 255, 0.36);
+  background: rgba(13, 22, 36, 0.72);
+  display: grid;
+  place-items: center;
+  color: var(--text-soft);
+}
+
+@media (max-width: 640px) {
+  .task-panel-top {
+    flex-direction: column;
+  }
+}

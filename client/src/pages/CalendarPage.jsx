@@ -1,17 +1,36 @@
 import { useEffect, useMemo, useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { fetchTasksApi } from "../services/taskService";
+import CalendarGrid from "../components/CalendarGrid";
+import TaskPanel from "../components/TaskPanel";
+import TaskModal from "../components/TaskModal";
+import { createTaskApi, fetchTasksApi, updateTaskApi } from "../services/taskService";
+import { buildRecurringPayloads } from "../utils/taskRecurrence";
 import { formatDateKey, isSameDay } from "../utils/taskAnalytics";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import "./CalendarPage.css";
 
+const getMonthAnchor = (value) => new Date(value.getFullYear(), value.getMonth(), 1);
+
+const getDefaultForm = (deadline) => ({
+  title: "",
+  subject: "",
+  priority: "Low",
+  deadline,
+  recurrence: "none",
+  repeatCount: 5,
+  customIntervalDays: 2,
+});
+
 function CalendarPage() {
   useDocumentTitle("Calendar");
 
-  const [date, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [visibleMonth, setVisibleMonth] = useState(() => getMonthAnchor(new Date()));
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [updatingTaskId, setUpdatingTaskId] = useState(null);
+  const [form, setForm] = useState(() => getDefaultForm(formatDateKey(new Date())));
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -37,32 +56,138 @@ function CalendarPage() {
       }
 
       const key = formatDateKey(task.deadline);
-      const entry = map.get(key) || [];
-      entry.push(task);
-      map.set(key, entry);
+      const bucket = map.get(key) || [];
+      bucket.push(task);
+      map.set(key, bucket);
     });
 
     return map;
   }, [tasks]);
 
-  const selectedDateTasks = tasks.filter((task) => task.deadline && isSameDay(task.deadline, date));
+  const selectedDateTasks = useMemo(
+    () => tasks.filter((task) => task.deadline && isSameDay(task.deadline, selectedDate)),
+    [tasks, selectedDate]
+  );
 
-  const taskTileClass = ({ date: tileDate, view }) => {
-    if (view !== "month") {
-      return null;
-    }
+  const daySummaries = useMemo(() => {
+    const map = new Map();
 
-    return tasksByDate.has(formatDateKey(tileDate)) ? "task-day" : null;
+    tasksByDate.forEach((entries, key) => {
+      const summary = {
+        total: entries.length,
+        completed: entries.filter((entry) => entry.status === "completed").length,
+        pending: entries.filter((entry) => entry.status !== "completed").length,
+        priority: {
+          High: 0,
+          Medium: 0,
+          Low: 0,
+        },
+        names: entries.map((entry) => entry.title).slice(0, 4),
+      };
+
+      entries.forEach((entry) => {
+        const level = entry.priority || "Low";
+        if (summary.priority[level] !== undefined) {
+          summary.priority[level] += 1;
+        }
+      });
+
+      map.set(key, summary);
+    });
+
+    return map;
+  }, [tasksByDate]);
+
+  const handleSelectDate = (nextDate) => {
+    setSelectedDate(nextDate);
+    setVisibleMonth(getMonthAnchor(nextDate));
   };
 
-  const taskTileContent = ({ date: tileDate, view }) => {
-    if (view !== "month") {
-      return null;
+  const handlePrevMonth = () => {
+    setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1));
+  };
+
+  const handleToday = () => {
+    const today = new Date();
+    setSelectedDate(today);
+    setVisibleMonth(getMonthAnchor(today));
+  };
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const openAddTaskModal = () => {
+    setForm((current) => ({
+      ...getDefaultForm(formatDateKey(selectedDate)),
+      title: current.title,
+      subject: current.subject,
+      priority: current.priority,
+      recurrence: current.recurrence,
+      repeatCount: current.repeatCount,
+      customIntervalDays: current.customIntervalDays,
+    }));
+    setShowModal(true);
+  };
+
+  const closeAddTaskModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCreateTask = async () => {
+    if (!form.title || !form.subject || !form.deadline) {
+      alert("Please fill title, subject, and deadline.");
+      return;
     }
 
-    const count = tasksByDate.get(formatDateKey(tileDate))?.length || 0;
+    setCreating(true);
 
-    return count > 0 ? <span className="task-dot" title={`${count} tasks`} /> : null;
+    try {
+      const payloads = buildRecurringPayloads(form);
+      const createdTasks = await Promise.all(payloads.map((payload) => createTaskApi(payload)));
+
+      setTasks((current) => [...createdTasks, ...current]);
+      setShowModal(false);
+      setForm(getDefaultForm(formatDateKey(selectedDate)));
+    } catch (error) {
+      console.log("CALENDAR TASK CREATE ERROR:", error.response?.data || error.message);
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleToggleTaskStatus = async (task) => {
+    const previousTasks = [...tasks];
+    const nextStatus = task.status === "completed" ? "pending" : "completed";
+
+    setUpdatingTaskId(task._id);
+    setTasks((current) =>
+      current.map((entry) =>
+        entry._id === task._id
+          ? {
+              ...entry,
+              status: nextStatus,
+            }
+          : entry
+      )
+    );
+
+    try {
+      const updatedTask = await updateTaskApi(task._id, { status: nextStatus });
+      setTasks((current) =>
+        current.map((entry) => (entry._id === task._id ? { ...entry, ...updatedTask } : entry))
+      );
+    } catch (error) {
+      setTasks(previousTasks);
+      console.log("CALENDAR STATUS UPDATE ERROR:", error.response?.data || error.message);
+    } finally {
+      setUpdatingTaskId(null);
+    }
   };
 
   return (
@@ -75,44 +200,35 @@ function CalendarPage() {
       </div>
 
       <div className="calendar-layout">
-        <section className="calendar-panel">
-          <Calendar
-            onChange={setDate}
-            value={date}
-            className="study-calendar"
-            tileClassName={taskTileClass}
-            tileContent={taskTileContent}
-          />
-        </section>
+        <CalendarGrid
+          monthDate={visibleMonth}
+          selectedDate={selectedDate}
+          daySummaries={daySummaries}
+          onSelectDate={handleSelectDate}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+          onGoToday={handleToday}
+        />
 
-        <section className="calendar-day-panel">
-          <h2>
-            Tasks for {date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
-          </h2>
-
-          {loading ? (
-            <p className="muted">Loading tasks...</p>
-          ) : selectedDateTasks.length === 0 ? (
-            <div className="calendar-empty-state">
-              <p>No tasks scheduled for this date.</p>
-            </div>
-          ) : (
-            <div className="calendar-task-list">
-              {selectedDateTasks.map((task) => (
-                <article key={task._id} className={`calendar-task-card ${task.status === "completed" ? "completed" : ""}`}>
-                  <div>
-                    <h3>{task.title}</h3>
-                    <p>{task.subject}</p>
-                  </div>
-                  <span className={`status-chip ${task.status === "completed" ? "completed" : "pending"}`}>
-                    {task.status}
-                  </span>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
+        <TaskPanel
+          selectedDate={selectedDate}
+          loading={loading}
+          tasks={selectedDateTasks}
+          onToggleTaskStatus={handleToggleTaskStatus}
+          onAddTask={openAddTaskModal}
+          updatingTaskId={updatingTaskId}
+        />
       </div>
+
+      <TaskModal
+        open={showModal}
+        form={form}
+        onChange={handleFormChange}
+        onClose={closeAddTaskModal}
+        onSubmit={handleCreateTask}
+      />
+
+      {creating && <p className="muted">Creating task...</p>}
     </section>
   );
 }
