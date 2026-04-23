@@ -15,23 +15,23 @@
   display: flex;
   justify-content: center;
   overflow: auto;
-  padding: 1rem;
+  padding: 1rem 1.05rem;
 }
 
 .sidebar-backdrop {
   position: fixed;
   inset: 72px 0 0 0;
-  background: rgba(4, 10, 22, 0.45);
+  background: var(--overlay-bg);
   z-index: 20;
 }
 
 .app-content {
   width: min(1320px, 100%);
-  padding: 1.4rem;
+  padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 1.15rem;
-  background: linear-gradient(160deg, var(--card-color), var(--surface-2));
-  box-shadow: var(--shadow-sm);
+  border-radius: 1rem;
+  background: var(--panel-gradient);
+  box-shadow: var(--shadow-md);
   animation: rise-in 0.35s ease-out;
 }
 

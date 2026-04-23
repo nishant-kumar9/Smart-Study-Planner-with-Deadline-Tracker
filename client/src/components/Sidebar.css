@@ -1,7 +1,7 @@
 .sidebar {
   width: 244px;
   border-right: 1px solid var(--border-strong);
-  background: linear-gradient(180deg, var(--card-color), var(--surface-2));
+  background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
   padding: 1.2rem 0.9rem;
   position: sticky;
   top: 72px;
@@ -57,10 +57,10 @@
 }
 
 .sidebar-item.active {
-  color: #f5f9ff;
-  border-color: rgba(95, 179, 255, 0.54);
-  background: linear-gradient(130deg, rgba(77, 168, 255, 0.26), rgba(77, 168, 255, 0.1));
-  box-shadow: 0 12px 24px rgba(7, 18, 35, 0.36);
+  color: var(--text-strong);
+  border-color: color-mix(in srgb, var(--brand) 54%, var(--border));
+  background: linear-gradient(130deg, color-mix(in srgb, var(--brand) 24%, transparent), color-mix(in srgb, var(--brand) 10%, transparent));
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar-icon {

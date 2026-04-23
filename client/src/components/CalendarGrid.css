@@ -12,29 +12,29 @@
 }
 
 .calendar-month-label {
-  border: 1px solid rgba(121, 151, 196, 0.2);
+  border: 1px solid var(--border);
   border-radius: 0.75rem;
-  background: rgba(15, 25, 42, 0.72);
+  background: var(--surface-2);
   font-size: clamp(1rem, 2vw, 1.15rem);
   text-align: center;
   padding: 0.62rem 0.75rem;
 }
 
 .calendar-nav-btn {
-  border: 1px solid rgba(121, 151, 196, 0.24);
+  border: 1px solid var(--border);
   border-radius: 0.72rem;
   min-width: 2.25rem;
   padding: 0.56rem 0.7rem;
   cursor: pointer;
-  background: rgba(17, 28, 47, 0.86);
+  background: var(--button-muted-bg);
   color: var(--text);
   font-weight: 600;
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
 .calendar-nav-btn:hover {
-  background: rgba(42, 91, 152, 0.4);
-  border-color: rgba(98, 168, 255, 0.58);
+  background: var(--button-muted-hover);
+  border-color: color-mix(in srgb, var(--brand) 58%, var(--border));
   transform: translateY(-1px);
 }
 
@@ -48,7 +48,7 @@
 .calendar-weekday {
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #8db3e5;
+  color: var(--text-soft);
   font-size: 0.74rem;
   font-weight: 700;
   text-align: center;
@@ -64,7 +64,7 @@
 .day-cell-empty {
   border-radius: 0.8rem;
   min-height: 84px;
-  background: rgba(9, 15, 27, 0.28);
+  background: color-mix(in srgb, var(--surface-2) 82%, transparent);
 }
 
 @media (max-width: 640px) {

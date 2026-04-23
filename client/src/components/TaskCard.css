@@ -34,7 +34,7 @@
 .task-card-top h3 {
   flex: 1;
   font-size: 1rem;
-  color: #f3f8ff;
+  color: var(--text-strong);
   line-height: 1.35;
 }
 
@@ -148,9 +148,9 @@
   width: 34px;
   height: 34px;
   border-radius: 0.65rem;
-  border: 1px solid rgba(95, 179, 255, 0.35);
-  background: var(--surface-2);
-  color: #d4e9ff;
+  border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--border));
+  background: var(--button-muted-bg);
+  color: var(--button-muted-text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +160,8 @@
 
 .task-icon-btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(95, 179, 255, 0.55);
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--border));
+  background: var(--button-muted-hover);
 }
 
 .task-delete-btn {

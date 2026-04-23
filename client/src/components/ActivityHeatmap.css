@@ -2,7 +2,8 @@
   border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1rem;
-  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(15, 24, 39, 0.95));
+  background: var(--panel-gradient);
+  box-shadow: var(--shadow-sm);
 }
 
 .heatmap-head h3 {

@@ -304,15 +304,8 @@ function Tasks() {
         <StatCard label="Total" value={tasks.length} />
         <StatCard label="Completed" value={completed} tone="success" />
         <StatCard label="Pending" value={pending} tone="warning" />
-      </div>
-
-      <div className="tasks-alert-grid">
         <StatCard label="Due Today" value={dueToday.length} tone="warning" />
         <StatCard label="Overdue" value={overdue.length} tone="danger" />
-        <div className="tasks-notification-card">
-          <h3>Focus Summary</h3>
-          <p>Quickly review what needs attention today and what is already overdue.</p>
-        </div>
       </div>
 
       <TaskFilters

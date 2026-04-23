@@ -1,10 +1,11 @@
 .task-filters-card {
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   padding: 1rem;
-  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(15, 24, 39, 0.95));
+  background: var(--panel-gradient);
   display: grid;
   gap: 0.95rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .task-filters-top {
@@ -24,8 +25,8 @@
 .saved-view-item button {
   border-radius: 0.66rem;
   border: 1px solid var(--border);
-  background: rgba(20, 31, 49, 0.8);
-  color: var(--text-soft);
+  background: var(--button-muted-bg);
+  color: var(--button-muted-text);
   padding: 0.46rem 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -35,8 +36,9 @@
 .save-view-btn:hover,
 .quick-view-btn:hover,
 .saved-view-item button:hover {
-  color: #eff6ff;
-  border-color: rgba(95, 179, 255, 0.45);
+  color: var(--text);
+  background: var(--button-muted-hover);
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
 }
 
 .task-filters-grid {
@@ -57,7 +59,7 @@
 .filter-input select {
   border-radius: 0.7rem;
   border: 1px solid var(--border);
-  background: rgba(12, 20, 35, 0.84);
+  background: var(--surface-1);
   color: var(--text);
   outline: none;
   padding: 0.55rem 0.7rem;
@@ -66,7 +68,7 @@
 .filter-input.with-icon span {
   border-radius: 0.7rem;
   border: 1px solid var(--border);
-  background: rgba(12, 20, 35, 0.84);
+  background: var(--surface-1);
   display: flex;
   align-items: center;
   gap: 0.45rem;
@@ -88,7 +90,7 @@
 
 .quick-view-wrap h3,
 .saved-view-wrap h3 {
-  color: #d6e5fb;
+  color: var(--text-strong);
   font-size: 0.9rem;
 }
 

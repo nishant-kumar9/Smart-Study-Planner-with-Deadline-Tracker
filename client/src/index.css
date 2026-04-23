@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
-:root {
+:root,
+:root[data-theme="dark"],
+.dark {
   color-scheme: dark;
   --bg-color: #060b14;
   --text-color: #dce8fb;
@@ -12,14 +14,22 @@
   --bg: var(--bg-color);
   --text: var(--text-color);
   --text-soft: #94a8c8;
+  --text-strong: #f2f7ff;
   --border: var(--border-color);
   --border-strong: rgba(143, 170, 208, 0.32);
   --brand: #49a4ff;
   --brand-soft: rgba(73, 164, 255, 0.16);
   --brand-soft-text: #9bcfff;
+  --button-muted-bg: rgba(20, 31, 49, 0.8);
+  --button-muted-hover: var(--surface-3);
+  --button-muted-text: var(--text-soft);
+  --overlay-bg: rgba(4, 10, 22, 0.72);
+  --panel-gradient: linear-gradient(160deg, rgba(17, 27, 43, 0.98), rgba(11, 19, 33, 0.98));
   --success: #3ad29f;
   --warning: #f4c15d;
   --danger: #ff6f7d;
+  --radius-md: 0.8rem;
+  --radius-lg: 1rem;
   --shadow-sm: 0 7px 22px rgba(2, 8, 19, 0.2);
   --shadow-md: 0 18px 35px rgba(2, 8, 19, 0.35);
   --shadow-lg: 0 30px 65px rgba(2, 8, 19, 0.55);
@@ -29,33 +39,42 @@
     linear-gradient(180deg, #070d17 0%, #050a13 100%);
 }
 
-:root[data-theme="light"] {
+:root[data-theme="light"],
+.light {
   color-scheme: light;
-  --bg-color: #eef3fb;
-  --text-color: #0e1726;
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
   --card-color: #ffffff;
-  --border-color: rgba(15, 23, 42, 0.1);
+  --border-color: #e2e8f0;
   --surface-1: #ffffff;
-  --surface-2: #f6f8fc;
-  --surface-3: #e8eef8;
+  --surface-2: #f8fafc;
+  --surface-3: #eef2f7;
   --bg: var(--bg-color);
   --text: var(--text-color);
-  --text-soft: #5c6b82;
+  --text-soft: #475569;
+  --text-strong: #020617;
   --border: var(--border-color);
-  --border-strong: rgba(15, 23, 42, 0.14);
+  --border-strong: #cbd5e1;
   --brand: #276ef1;
   --brand-soft: rgba(39, 110, 241, 0.12);
   --brand-soft-text: #276ef1;
+  --button-muted-bg: #ffffff;
+  --button-muted-hover: #f1f5f9;
+  --button-muted-text: #334155;
+  --overlay-bg: rgba(15, 23, 42, 0.34);
+  --panel-gradient: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
   --success: #0f9d74;
   --warning: #c28c13;
   --danger: #d9465a;
-  --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 18px 32px rgba(15, 23, 42, 0.1);
-  --shadow-lg: 0 28px 55px rgba(15, 23, 42, 0.14);
+  --radius-md: 0.8rem;
+  --radius-lg: 1rem;
+  --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 24px 48px rgba(15, 23, 42, 0.16);
   --page-gradient:
-    radial-gradient(circle at 10% -10%, rgba(39, 110, 241, 0.12), transparent 28%),
-    radial-gradient(circle at 92% 0%, rgba(28, 140, 186, 0.08), transparent 26%),
-    linear-gradient(180deg, #f8fbff 0%, #edf2fb 100%);
+    radial-gradient(circle at 10% -10%, rgba(39, 110, 241, 0.09), transparent 30%),
+    radial-gradient(circle at 92% 0%, rgba(28, 140, 186, 0.06), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 * {

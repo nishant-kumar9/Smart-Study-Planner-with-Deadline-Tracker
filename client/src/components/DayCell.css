@@ -6,8 +6,8 @@
   justify-content: flex-start;
   min-height: 84px;
   border-radius: 0.8rem;
-  border: 1px solid rgba(127, 158, 203, 0.2);
-  background: rgba(14, 23, 38, 0.86);
+  border: 1px solid var(--border);
+  background: var(--surface-1);
   color: var(--text);
   cursor: pointer;
   text-align: left;
@@ -16,20 +16,20 @@
 }
 
 .day-cell:hover {
-  background: rgba(20, 36, 59, 0.9);
-  border-color: rgba(97, 171, 255, 0.52);
+  background: var(--surface-2);
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--border));
   transform: translateY(-1px);
 }
 
 .day-cell:focus-visible {
-  outline: 2px solid rgba(97, 171, 255, 0.65);
+  outline: 2px solid color-mix(in srgb, var(--brand) 68%, transparent);
   outline-offset: 1px;
 }
 
 .day-cell.is-selected {
-  background: linear-gradient(180deg, rgba(49, 103, 168, 0.5), rgba(34, 67, 104, 0.48));
-  border-color: rgba(103, 181, 255, 0.68);
-  box-shadow: inset 0 0 0 1px rgba(103, 181, 255, 0.32);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 24%, var(--surface-1)), color-mix(in srgb, var(--brand) 16%, var(--surface-2)));
+  border-color: color-mix(in srgb, var(--brand) 66%, var(--border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 32%, transparent);
 }
 
 .day-cell.is-today {
@@ -49,7 +49,7 @@
 .task-count {
   margin-top: 0.2rem;
   font-size: 0.72rem;
-  color: #9ec4f3;
+  color: var(--text-soft);
 }
 
 .priority-dots {
@@ -84,7 +84,7 @@
   bottom: 0.28rem;
   height: 0.18rem;
   border-radius: 999px;
-  background: rgba(126, 153, 194, 0.26);
+  background: color-mix(in srgb, var(--text-soft) 24%, transparent);
   overflow: hidden;
 }
 
@@ -105,9 +105,9 @@
   width: max-content;
   max-width: 220px;
   border-radius: 0.56rem;
-  border: 1px solid rgba(124, 163, 215, 0.3);
-  background: rgba(8, 15, 26, 0.96);
-  color: #dfeeff;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-1) 94%, var(--bg-color));
+  color: var(--text);
   font-size: 0.72rem;
   line-height: 1.35;
   padding: 0.4rem 0.48rem;

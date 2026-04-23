@@ -12,16 +12,16 @@
 }
 
 .today-label {
-  color: #56dfb7;
+  color: var(--success);
   font-size: 0.78rem;
   font-weight: 600;
 }
 
 .add-task-btn {
   border-radius: 0.74rem;
-  border: 1px solid rgba(97, 171, 255, 0.4);
-  background: rgba(35, 74, 124, 0.3);
-  color: #d8ebff;
+  border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--border));
+  background: var(--brand-soft);
+  color: var(--brand-soft-text);
   padding: 0.52rem 0.78rem;
   cursor: pointer;
   font-weight: 600;
@@ -29,8 +29,8 @@
 }
 
 .add-task-btn:hover {
-  background: rgba(53, 102, 167, 0.45);
-  border-color: rgba(110, 184, 255, 0.66);
+  background: color-mix(in srgb, var(--brand) 22%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--brand) 65%, var(--border));
 }
 
 .calendar-task-list {
@@ -39,14 +39,14 @@
 }
 
 .calendar-task-card {
-  border: 1px solid rgba(127, 158, 203, 0.24);
+  border: 1px solid var(--border);
   border-radius: 0.84rem;
   padding: 0.74rem;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
   gap: 0.7rem;
-  background: rgba(12, 21, 36, 0.82);
+  background: var(--surface-1);
 }
 
 .calendar-task-card.completed {
@@ -78,8 +78,8 @@
   width: 1.02rem;
   height: 1.02rem;
   border-radius: 0.3rem;
-  border: 1px solid rgba(122, 157, 207, 0.7);
-  background: rgba(16, 28, 48, 0.9);
+  border: 1px solid color-mix(in srgb, var(--text-soft) 45%, var(--border));
+  background: var(--surface-2);
 }
 
 .task-complete-toggle input:checked + .checkmark {
@@ -123,7 +123,7 @@
   border-radius: 999px;
   font-size: 0.72rem;
   padding: 0.2rem 0.52rem;
-  border: 1px solid rgba(127, 158, 203, 0.24);
+  border: 1px solid var(--border);
 }
 
 .priority-badge.high {
@@ -145,7 +145,7 @@
 }
 
 .deadline-text {
-  color: #b9d4f5;
+  color: var(--text-soft);
 }
 
 .overdue-badge {
@@ -157,8 +157,8 @@
 .calendar-empty-state {
   min-height: 210px;
   border-radius: 0.84rem;
-  border: 1px dashed rgba(95, 179, 255, 0.36);
-  background: rgba(13, 22, 36, 0.72);
+  border: 1px dashed color-mix(in srgb, var(--brand) 36%, var(--border));
+  background: var(--surface-2);
   display: grid;
   place-items: center;
   color: var(--text-soft);

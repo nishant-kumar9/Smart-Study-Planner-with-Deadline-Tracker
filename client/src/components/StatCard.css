@@ -1,7 +1,7 @@
 .stat-card {
   background: linear-gradient(165deg, var(--card-color), var(--surface-2));
   border: 1px solid var(--border-strong);
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   padding: 1rem 1.05rem;
   min-height: 110px;
   display: flex;
@@ -20,6 +20,7 @@
 .stat-label {
   color: var(--text-soft);
   font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .stat-value {
