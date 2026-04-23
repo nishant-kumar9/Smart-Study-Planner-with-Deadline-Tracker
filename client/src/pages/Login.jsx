@@ -5,8 +5,11 @@ import "./Auth.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { setStoredUser } from "../services/userStorage";
 import { API_URL } from "../config/api";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function Login() {
+  useDocumentTitle("Login");
+
   const [form, setForm] = useState({ email: "", password: "" });
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");

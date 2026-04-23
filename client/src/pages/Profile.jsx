@@ -4,9 +4,12 @@ import StatCard from "../components/StatCard";
 import { fetchTasksApi } from "../services/taskService";
 import { getStoredUser } from "../services/userStorage";
 import { calculateStreakMetrics } from "../utils/taskAnalytics";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import "./Profile.css";
 
 function Profile() {
+  useDocumentTitle("Profile");
+
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const user = getStoredUser();

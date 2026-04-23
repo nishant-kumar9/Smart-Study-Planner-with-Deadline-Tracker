@@ -16,6 +16,7 @@ import {
   requestNotificationPermission,
 } from "../services/reminderService";
 import { buildRecurringPayloads } from "../utils/taskRecurrence";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import "./Tasks.css";
 
 const SAVED_VIEW_KEY = "taskSavedViews";
@@ -58,6 +59,8 @@ const quickViews = [
 ];
 
 function Tasks() {
+  useDocumentTitle("Tasks");
+
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);

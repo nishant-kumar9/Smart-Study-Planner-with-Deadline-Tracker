@@ -3,9 +3,12 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { fetchTasksApi } from "../services/taskService";
 import { formatDateKey, isSameDay } from "../utils/taskAnalytics";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import "./CalendarPage.css";
 
 function CalendarPage() {
+  useDocumentTitle("Calendar");
+
   const [date, setDate] = useState(new Date());
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);

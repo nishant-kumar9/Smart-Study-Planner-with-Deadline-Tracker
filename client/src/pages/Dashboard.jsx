@@ -3,8 +3,11 @@ import axios from "axios";
 import StatCard from "../components/StatCard";
 import "./Dashboard.css";
 import { API_URL } from "../config/api";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function Dashboard() {
+  useDocumentTitle("Dashboard");
+
   const [tasks, setTasks] = useState([]);
   const token = localStorage.getItem("token");
 
