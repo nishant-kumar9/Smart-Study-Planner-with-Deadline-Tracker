@@ -1,0 +1,41 @@
+.line-chart-card {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(15, 24, 39, 0.95));
+}
+
+.line-chart-card h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.line-chart-svg {
+  width: 100%;
+  height: 190px;
+  overflow: visible;
+}
+
+.trend-line {
+  fill: none;
+  stroke: #72bdff;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.trend-dot {
+  fill: #9ad4ff;
+}
+
+.line-labels {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-top: 0.2rem;
+}
+
+.line-labels span {
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 0.74rem;
+}

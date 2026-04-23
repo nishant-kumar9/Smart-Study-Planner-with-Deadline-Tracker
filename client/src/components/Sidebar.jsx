@@ -1,31 +1,45 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import {
+  HiOutlineSquares2X2,
+  HiOutlineClipboardDocumentList,
+  HiOutlineCalendarDays,
+  HiOutlineChartBar,
+  HiOutlineUserCircle,
+} from "react-icons/hi2";
 import "./Sidebar.css";
 
-function Sidebar() {
-  const navigate = useNavigate();
-  const location = useLocation();
+function Sidebar({ isOpen, onNavigate }) {
 
   const menu = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Tasks", path: "/tasks" },
-    { name: "Calendar", path: "/calendar" },
-    { name: "Progress", path: "/progress" },
+    { name: "Dashboard", path: "/dashboard", icon: <HiOutlineSquares2X2 /> },
+    {
+      name: "Tasks",
+      path: "/tasks",
+      icon: <HiOutlineClipboardDocumentList />,
+    },
+    { name: "Calendar", path: "/calendar", icon: <HiOutlineCalendarDays /> },
+    { name: "Progress", path: "/progress", icon: <HiOutlineChartBar /> },
+    { name: "Profile", path: "/profile", icon: <HiOutlineUserCircle /> },
   ];
 
   return (
-    <div className="sidebar">
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      <p className="sidebar-label">Workspace</p>
+
       {menu.map((item) => (
-        <div
+        <NavLink
           key={item.path}
-          className={`sidebar-item ${
-            location.pathname === item.path ? "active" : ""
-          }`}
-          onClick={() => navigate(item.path)}
+          to={item.path}
+          onClick={onNavigate}
+          className={({ isActive }) =>
+            `sidebar-item ${isActive ? "active" : ""}`
+          }
         >
+          <span className="sidebar-icon">{item.icon}</span>
           {item.name}
-        </div>
+        </NavLink>
       ))}
-    </div>
+    </aside>
   );
 }
 

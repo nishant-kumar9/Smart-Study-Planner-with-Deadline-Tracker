@@ -1,0 +1,128 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 10, 22, 0.82);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  animation: fade-in 0.2s ease;
+  padding: 1rem;
+}
+
+.modal-card {
+  width: min(680px, 100%);
+  border-radius: 1.2rem;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(21, 32, 51, 0.98), rgba(15, 23, 38, 0.98));
+  box-shadow: var(--shadow-lg);
+  padding: 1.25rem;
+  animation: pop-in 0.22s ease;
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.modal-top h2 {
+  font-size: 1.2rem;
+}
+
+.modal-top p {
+  color: var(--text-soft);
+  margin-top: 0.2rem;
+}
+
+.close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 0.65rem;
+  border: 1px solid var(--border);
+  background: rgba(26, 37, 58, 0.72);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.modal-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+}
+
+.modal-grid input,
+.modal-grid select {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: rgba(17, 26, 42, 0.9);
+  color: var(--text);
+  padding: 0.65rem 0.8rem;
+  outline: none;
+}
+
+.modal-grid input:focus,
+.modal-grid select:focus {
+  border-color: rgba(95, 179, 255, 0.55);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.1rem;
+  gap: 0.65rem;
+}
+
+.primary-btn,
+.secondary-btn {
+  border-radius: 0.7rem;
+  padding: 0.58rem 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.primary-btn {
+  color: #f3f9ff;
+  background: linear-gradient(120deg, #3e86ff, #41b0ff);
+}
+
+.secondary-btn {
+  background: rgba(26, 37, 58, 0.72);
+  color: var(--text-soft);
+  border-color: var(--border);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+}

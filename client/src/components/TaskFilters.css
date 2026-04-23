@@ -1,0 +1,137 @@
+.task-filters-card {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(15, 24, 39, 0.95));
+  display: grid;
+  gap: 0.95rem;
+}
+
+.task-filters-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.task-filters-top h2 {
+  font-size: 1rem;
+}
+
+.filter-reset,
+.save-view-btn,
+.quick-view-btn,
+.saved-view-item button {
+  border-radius: 0.66rem;
+  border: 1px solid var(--border);
+  background: rgba(20, 31, 49, 0.8);
+  color: var(--text-soft);
+  padding: 0.46rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-reset:hover,
+.save-view-btn:hover,
+.quick-view-btn:hover,
+.saved-view-item button:hover {
+  color: #eff6ff;
+  border-color: rgba(95, 179, 255, 0.45);
+}
+
+.task-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.filter-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--text-soft);
+  font-size: 0.8rem;
+}
+
+.filter-input input,
+.filter-input select {
+  border-radius: 0.7rem;
+  border: 1px solid var(--border);
+  background: rgba(12, 20, 35, 0.84);
+  color: var(--text);
+  outline: none;
+  padding: 0.55rem 0.7rem;
+}
+
+.filter-input.with-icon span {
+  border-radius: 0.7rem;
+  border: 1px solid var(--border);
+  background: rgba(12, 20, 35, 0.84);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.6rem;
+}
+
+.filter-input.with-icon span input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding-left: 0;
+}
+
+.quick-view-wrap,
+.saved-view-wrap {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.quick-view-wrap h3,
+.saved-view-wrap h3 {
+  color: #d6e5fb;
+  font-size: 0.9rem;
+}
+
+.quick-view-list,
+.saved-view-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.saved-view-create {
+  display: flex;
+  gap: 0.6rem;
+  align-items: end;
+}
+
+.full-width {
+  flex: 1;
+}
+
+.saved-view-item {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.saved-delete {
+  width: 34px;
+  display: grid;
+  place-items: center;
+}
+
+.saved-empty {
+  color: var(--text-soft);
+  font-size: 0.84rem;
+}
+
+@media (max-width: 960px) {
+  .task-filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-view-create {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

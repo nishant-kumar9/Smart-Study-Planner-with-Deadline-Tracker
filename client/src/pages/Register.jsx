@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Register.css";
+import "./Auth.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
@@ -49,51 +49,78 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        <h2>Create Account 🚀</h2>
+    <section className="auth-shell">
+      <div className="auth-card">
+        <div className="auth-info">
+          <h2>Create your account</h2>
+          <p>Build a disciplined routine with your personalized study planner.</p>
 
-        <input name="name" placeholder="Name" onChange={handleChange} />
-        <input name="email" placeholder="Email" onChange={handleChange} />
+          <div className="auth-points">
+            <span>Set study tasks with deadlines</span>
+            <span>Visualize completion and pending work</span>
+            <span>Keep daily momentum with clear planning</span>
+          </div>
+        </div>
 
-        <div className="password-wrapper">
+        <form
+          className="auth-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleRegister();
+          }}
+        >
+          <h3>Sign up</h3>
+          <p>Create your planner workspace.</p>
+
           <input
-            type={show ? "text" : "password"}
-            name="password"
-            placeholder="Password"
+            name="name"
+            placeholder="Full name"
+            value={form.name}
             onChange={handleChange}
-            className="password-input"
+          />
+          <input
+            name="email"
+            placeholder="Email address"
+            value={form.email}
+            onChange={handleChange}
           />
 
-          <button
-            type="button"
-            className="eye-btn"
-            onClick={() => setShow(!show)}
-          >
-            {show ? <FaEyeSlash /> : <FaEye />}
+          <div className="password-wrapper">
+            <input
+              type={show ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              value={form.password}
+              className="password-input"
+            />
+
+            <button
+              type="button"
+              className="eye-btn"
+              onClick={() => setShow(!show)}
+            >
+              {show ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          <div className="password-rules">
+            At least 6 characters, one uppercase letter, and one number.
+          </div>
+          <div className="strength">Password strength: {strength}</div>
+
+          <p className="error-text">{error}</p>
+
+          <button className="auth-cta" type="submit">
+            Register
           </button>
-        </div>
 
-        <div className="password-rules">
-          • At least 6 characters <br />
-          • One uppercase letter <br />
-          • One number
-        </div>
-
-        <div className="strength">Strength: {strength}</div>
-
-        <p className="error-text">{error}</p>
-
-        <button className="register-btn" onClick={handleRegister}>
-          Register
-        </button>
-
-        <p className="bottom-text">
-          Already have an account?{" "}
-          <span onClick={() => navigate("/")}>Login</span>
-        </p>
+          <p className="bottom-text">
+            Already have an account? <span onClick={() => navigate("/")}>Login</span>
+          </p>
+        </form>
       </div>
-    </div>
+    </section>
   );
 }
 

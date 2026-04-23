@@ -1,12 +1,49 @@
-/* ONLY GLOBAL RESET */
+:root {
+  --bg: #090d16;
+  --surface-1: #11192a;
+  --surface-2: #152033;
+  --surface-3: #1b2840;
+  --text: #d7e0ee;
+  --text-soft: #8ea0bc;
+  --border: rgba(160, 184, 219, 0.2);
+  --brand: #4da8ff;
+  --brand-soft: rgba(77, 168, 255, 0.16);
+  --success: #3ad29f;
+  --warning: #f4c15d;
+  --danger: #ff6f7d;
+  --shadow-lg: 0 30px 65px rgba(3, 10, 23, 0.55);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: white;
+  font-family: "Segoe UI", "Inter", sans-serif;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(41, 97, 180, 0.25), transparent 28%),
+    radial-gradient(circle at 86% 0%, rgba(16, 93, 143, 0.25), transparent 28%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }

@@ -1,0 +1,56 @@
+.heatmap-card {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(15, 24, 39, 0.95));
+}
+
+.heatmap-head h3 {
+  font-size: 1rem;
+}
+
+.heatmap-head p {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  margin-top: 0.25rem;
+}
+
+.heatmap-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.heat-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  border: 1px solid rgba(160, 184, 219, 0.14);
+}
+
+.heat-cell.level-0 {
+  background: rgba(128, 148, 176, 0.12);
+}
+
+.heat-cell.level-1 {
+  background: rgba(81, 188, 147, 0.35);
+}
+
+.heat-cell.level-2 {
+  background: rgba(81, 188, 147, 0.52);
+}
+
+.heat-cell.level-3 {
+  background: rgba(66, 175, 135, 0.68);
+}
+
+.heat-cell.level-4 {
+  background: rgba(44, 151, 114, 0.88);
+}
+
+@media (max-width: 700px) {
+  .heatmap-grid {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+}

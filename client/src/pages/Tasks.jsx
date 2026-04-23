@@ -1,33 +1,100 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+import TaskCard from "../components/TaskCard";
+import TaskModal from "../components/TaskModal";
+import StatCard from "../components/StatCard";
+import TaskFilters from "../components/TaskFilters";
+import {
+  createTaskApi,
+  deleteTaskApi,
+  fetchTasksApi,
+  updateTaskApi,
+} from "../services/taskService";
+import {
+  classifyTaskAlerts,
+  notifyTaskAlerts,
+  requestNotificationPermission,
+} from "../services/reminderService";
+import { buildRecurringPayloads } from "../utils/taskRecurrence";
 import "./Tasks.css";
+
+const SAVED_VIEW_KEY = "taskSavedViews";
+
+const defaultFilters = {
+  query: "",
+  subject: "all",
+  priority: "all",
+  status: "all",
+  startDate: "",
+  endDate: "",
+};
+
+const quickViews = [
+  {
+    id: "high-priority-week",
+    name: "High Priority This Week",
+    filters: {
+      ...defaultFilters,
+      priority: "High",
+    },
+  },
+  {
+    id: "due-today",
+    name: "Due Today",
+    filters: {
+      ...defaultFilters,
+      startDate: new Date().toISOString().slice(0, 10),
+      endDate: new Date().toISOString().slice(0, 10),
+    },
+  },
+  {
+    id: "pending-only",
+    name: "Pending Only",
+    filters: {
+      ...defaultFilters,
+      status: "pending",
+    },
+  },
+];
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [updatingTaskId, setUpdatingTaskId] = useState(null);
+  const [deletingTaskId, setDeletingTaskId] = useState(null);
+  const [notificationPermission, setNotificationPermission] = useState(
+    typeof Notification !== "undefined" ? Notification.permission : "unsupported"
+  );
+  const [filters, setFilters] = useState(defaultFilters);
+  const [saveViewName, setSaveViewName] = useState("");
+  const [savedViews, setSavedViews] = useState(() => {
+    try {
+      const raw = localStorage.getItem(SAVED_VIEW_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const [form, setForm] = useState({
     title: "",
     subject: "",
     priority: "Low",
     deadline: "",
+    recurrence: "none",
+    repeatCount: 5,
+    customIntervalDays: 2,
   });
 
-  const token = localStorage.getItem("token");
-
-  // FETCH TASKS
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/tasks", {
-        headers: {
-          Authorization: `Bearer ${token}`, // 🔥 FIXED
-        },
-      });
-
-      console.log("TASKS:", res.data); // DEBUG
-      setTasks(res.data);
+      const data = await fetchTasksApi();
+      setTasks(data);
     } catch (err) {
       console.log("GET ERROR:", err.response?.data || err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,7 +104,13 @@ function Tasks() {
 
   // INPUT
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setFilters((current) => ({ ...current, [name]: value }));
   };
 
   const resetForm = () => {
@@ -46,105 +119,268 @@ function Tasks() {
       subject: "",
       priority: "Low",
       deadline: "",
+      recurrence: "none",
+      repeatCount: 5,
+      customIntervalDays: 2,
     });
   };
 
   // ADD TASK
   const addTask = async () => {
     if (!form.title || !form.subject || !form.deadline) {
-      alert("Fill all fields");
+      alert("Please fill title, subject, and deadline.");
       return;
     }
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/tasks",
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // 🔥 FIXED
-          },
-        }
-      );
+      const payloads = buildRecurringPayloads(form);
+      const createdTasks = await Promise.all(payloads.map((payload) => createTaskApi(payload)));
+
+      setTasks((currentTasks) => [...createdTasks, ...currentTasks]);
 
       resetForm();
       setShowModal(false);
-      fetchTasks();
     } catch (err) {
       console.log("POST ERROR:", err.response?.data || err.message);
     }
   };
 
-  return (
-    <div className="tasks-container">
+  const toggleTaskStatus = async (task) => {
+    const nextStatus = task.status === "completed" ? "pending" : "completed";
+    const previousTasks = [...tasks];
 
-      {/* HEADER */}
+    setUpdatingTaskId(task._id);
+    setTasks((currentTasks) =>
+      currentTasks.map((currentTask) =>
+        currentTask._id === task._id
+          ? {
+              ...currentTask,
+              status: nextStatus,
+            }
+          : currentTask
+      )
+    );
+
+    try {
+      const updatedTask = await updateTaskApi(task._id, { status: nextStatus });
+      setTasks((currentTasks) =>
+        currentTasks.map((currentTask) =>
+          currentTask._id === task._id ? { ...currentTask, ...updatedTask } : currentTask
+        )
+      );
+    } catch (err) {
+      setTasks(previousTasks);
+      console.log("STATUS UPDATE ERROR:", err.response?.data || err.message);
+    } finally {
+      setUpdatingTaskId(null);
+    }
+  };
+
+  const deleteTask = async (task) => {
+    const previousTasks = [...tasks];
+
+    setDeletingTaskId(task._id);
+    setTasks((currentTasks) => currentTasks.filter((currentTask) => currentTask._id !== task._id));
+
+    try {
+      await deleteTaskApi(task._id);
+    } catch (err) {
+      setTasks(previousTasks);
+      console.log("DELETE ERROR:", err.response?.data || err.message);
+    } finally {
+      setDeletingTaskId(null);
+    }
+  };
+
+  const enableReminderNotifications = async () => {
+    const permission = await requestNotificationPermission();
+    setNotificationPermission(permission);
+
+    if (permission === "granted") {
+      notifyTaskAlerts(tasks);
+    }
+  };
+
+  const saveCurrentView = () => {
+    const trimmed = saveViewName.trim();
+
+    if (!trimmed) {
+      return;
+    }
+
+    const next = [
+      ...savedViews,
+      {
+        id: crypto.randomUUID(),
+        name: trimmed,
+        filters,
+      },
+    ];
+
+    setSavedViews(next);
+    localStorage.setItem(SAVED_VIEW_KEY, JSON.stringify(next));
+    setSaveViewName("");
+  };
+
+  const deleteSavedView = (viewId) => {
+    const next = savedViews.filter((view) => view.id !== viewId);
+    setSavedViews(next);
+    localStorage.setItem(SAVED_VIEW_KEY, JSON.stringify(next));
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    const queryValue = filters.query.trim().toLowerCase();
+    const title = (task.title || "").toLowerCase();
+    const subject = task.subject || "";
+    const priority = task.priority || "";
+    const status = task.status || "pending";
+    const deadline = task.deadline ? new Date(task.deadline) : null;
+
+    const startDate = filters.startDate ? new Date(filters.startDate) : null;
+    const endDate = filters.endDate ? new Date(filters.endDate) : null;
+
+    if (queryValue && !title.includes(queryValue) && !subject.toLowerCase().includes(queryValue)) {
+      return false;
+    }
+
+    if (filters.subject !== "all" && subject !== filters.subject) {
+      return false;
+    }
+
+    if (filters.priority !== "all" && priority !== filters.priority) {
+      return false;
+    }
+
+    if (filters.status !== "all" && status !== filters.status) {
+      return false;
+    }
+
+    if (startDate && (!deadline || deadline < startDate)) {
+      return false;
+    }
+
+    if (endDate) {
+      const nextDay = new Date(endDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      if (!deadline || deadline >= nextDay) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  const subjects = [...new Set(tasks.map((task) => task.subject).filter(Boolean))].sort();
+
+  const { dueToday, overdue } = classifyTaskAlerts(tasks);
+
+  useEffect(() => {
+    if (notificationPermission === "granted") {
+      notifyTaskAlerts(tasks);
+    }
+  }, [tasks, notificationPermission]);
+
+  const completed = tasks.filter((task) => task.status === "completed").length;
+  const pending = tasks.length - completed;
+
+  return (
+    <section className="tasks-page">
+
       <div className="tasks-header">
         <div>
-          <h2>Tasks</h2>
-          <p>Manage your work</p>
+          <h1>Tasks</h1>
+          <p>Plan, prioritize, and keep every deadline under control.</p>
         </div>
 
-        <button onClick={() => setShowModal(true)} className="add-top">
-          + Add Task
+        <button onClick={() => setShowModal(true)} className="add-top" type="button">
+          Create Task
         </button>
       </div>
 
-      {/* LIST */}
-      {tasks.length === 0 ? (
-        <p>No tasks found</p>
+      <div className="tasks-stat-grid">
+        <StatCard label="Total" value={tasks.length} />
+        <StatCard label="Completed" value={completed} tone="success" />
+        <StatCard label="Pending" value={pending} tone="warning" />
+      </div>
+
+      <div className="tasks-alert-grid">
+        <StatCard label="Due Today" value={dueToday.length} tone="warning" />
+        <StatCard label="Overdue" value={overdue.length} tone="danger" />
+        <div className="tasks-notification-card">
+          <h3>Smart Reminders</h3>
+          <p>
+            {notificationPermission === "granted"
+              ? "Browser reminders are enabled."
+              : "Enable notifications for due today and overdue task alerts."}
+          </p>
+          <button
+            type="button"
+            className="notify-btn"
+            onClick={enableReminderNotifications}
+            disabled={notificationPermission === "granted" || notificationPermission === "unsupported"}
+          >
+            {notificationPermission === "unsupported"
+              ? "Notifications Not Supported"
+              : notificationPermission === "granted"
+                ? "Notifications Enabled"
+                : "Enable Notifications"}
+          </button>
+        </div>
+      </div>
+
+      <TaskFilters
+        filters={filters}
+        subjects={subjects}
+        onChange={handleFilterChange}
+        onReset={() => setFilters(defaultFilters)}
+        savedViews={savedViews}
+        saveViewName={saveViewName}
+        onSaveViewNameChange={setSaveViewName}
+        onSaveCurrentView={saveCurrentView}
+        onApplySavedView={setFilters}
+        onDeleteSavedView={deleteSavedView}
+        quickViews={quickViews}
+        onApplyQuickView={setFilters}
+      />
+
+      {loading ? (
+        <div className="empty-state">
+          <h3>Loading tasks...</h3>
+        </div>
+      ) : filteredTasks.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">
+            <HiOutlineClipboardDocumentCheck />
+          </div>
+          <h3>No tasks found</h3>
+          <p>Try adjusting filters or create a new task.</p>
+          <button type="button" className="add-top" onClick={() => setShowModal(true)}>
+            Create Task
+          </button>
+        </div>
       ) : (
-        tasks.map((task) => (
-          <div key={task._id} className="task-card">
-            <h3>{task.title}</h3>
-            <p>{task.subject}</p>
-          </div>
-        ))
-      )}
-
-      {/* MODAL */}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-box">
-
-            <input
-              name="title"
-              placeholder="Title"
-              value={form.title}
-              onChange={handleChange}
+        <div className="task-grid">
+          {filteredTasks.map((task) => (
+            <TaskCard
+              key={task._id}
+              task={task}
+              onToggleStatus={toggleTaskStatus}
+              onDelete={deleteTask}
+              isUpdating={updatingTaskId === task._id}
+              isDeleting={deletingTaskId === task._id}
             />
-
-            <input
-              name="subject"
-              placeholder="Subject"
-              value={form.subject}
-              onChange={handleChange}
-            />
-
-            <input
-              type="date"
-              name="deadline"
-              value={form.deadline}
-              onChange={handleChange}
-            />
-
-            <select
-              name="priority"
-              value={form.priority}
-              onChange={handleChange}
-            >
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-            </select>
-
-            <button onClick={addTask}>Add</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-
-          </div>
+          ))}
         </div>
       )}
-    </div>
+
+      <TaskModal
+        open={showModal}
+        form={form}
+        onChange={handleChange}
+        onClose={() => setShowModal(false)}
+        onSubmit={addTask}
+      />
+    </section>
   );
 }
 

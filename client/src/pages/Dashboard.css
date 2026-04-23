@@ -1,26 +1,69 @@
-.dashboard {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.task-form {
+.dashboard-page {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 1.1rem;
 }
 
-.task-form input,
-.task-form select {
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
+.page-title-row h1 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
 }
 
-.task-card {
-  background: #1e293b;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+.page-title-row p {
+  color: var(--text-soft);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.dashboard-panel {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(165deg, rgba(23, 34, 54, 0.95), rgba(16, 25, 41, 0.94));
+}
+
+.dashboard-panel h2 {
+  font-size: 1.06rem;
+  margin-bottom: 0.82rem;
+}
+
+.deadline-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.deadline-item {
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(15, 23, 38, 0.72);
+}
+
+.deadline-item h3 {
+  font-size: 0.95rem;
+}
+
+.deadline-item p,
+.muted {
+  color: var(--text-soft);
+}
+
+.deadline-item span {
+  color: #cbdeff;
+  border: 1px solid rgba(95, 179, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.2rem 0.62rem;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 980px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
