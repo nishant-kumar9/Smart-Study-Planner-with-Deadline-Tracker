@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { API_URL } from "../config/api";
 
 function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -41,7 +42,7 @@ function Register() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", form);
+      await axios.post(`${API_URL}/auth/register`, form);
       navigate("/");
     } catch {
       setError("Registration failed");

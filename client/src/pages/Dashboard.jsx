@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import StatCard from "../components/StatCard";
 import "./Dashboard.css";
+import { API_URL } from "../config/api";
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -9,7 +10,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/tasks", {
+      .get(`${API_URL}/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

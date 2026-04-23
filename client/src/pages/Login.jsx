@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { setStoredUser } from "../services/userStorage";
+import { API_URL } from "../config/api";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -19,7 +20,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", form);
+      const res = await axios.post(`${API_URL}/auth/login`, form);
       localStorage.setItem("token", res.data.token);
       if (res.data.user) {
         setStoredUser(res.data.user);
