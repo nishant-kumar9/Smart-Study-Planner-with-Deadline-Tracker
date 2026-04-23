@@ -1,17 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
 :root {
-  --bg: #090d16;
-  --surface-1: #11192a;
-  --surface-2: #152033;
-  --surface-3: #1b2840;
-  --text: #d7e0ee;
-  --text-soft: #8ea0bc;
-  --border: rgba(160, 184, 219, 0.2);
-  --brand: #4da8ff;
-  --brand-soft: rgba(77, 168, 255, 0.16);
+  color-scheme: dark;
+  --bg-color: #060b14;
+  --text-color: #dce8fb;
+  --card-color: #0f1727;
+  --border-color: rgba(143, 170, 208, 0.22);
+  --surface-1: #0f1727;
+  --surface-2: #131d30;
+  --surface-3: #1a2740;
+  --bg: var(--bg-color);
+  --text: var(--text-color);
+  --text-soft: #94a8c8;
+  --border: var(--border-color);
+  --border-strong: rgba(143, 170, 208, 0.32);
+  --brand: #49a4ff;
+  --brand-soft: rgba(73, 164, 255, 0.16);
+  --brand-soft-text: #9bcfff;
   --success: #3ad29f;
   --warning: #f4c15d;
   --danger: #ff6f7d;
-  --shadow-lg: 0 30px 65px rgba(3, 10, 23, 0.55);
+  --shadow-sm: 0 7px 22px rgba(2, 8, 19, 0.2);
+  --shadow-md: 0 18px 35px rgba(2, 8, 19, 0.35);
+  --shadow-lg: 0 30px 65px rgba(2, 8, 19, 0.55);
+  --page-gradient:
+    radial-gradient(circle at 10% -10%, rgba(54, 109, 201, 0.28), transparent 30%),
+    radial-gradient(circle at 92% 0%, rgba(22, 121, 165, 0.2), transparent 28%),
+    linear-gradient(180deg, #070d17 0%, #050a13 100%);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-color: #eef3fb;
+  --text-color: #0e1726;
+  --card-color: #ffffff;
+  --border-color: rgba(15, 23, 42, 0.1);
+  --surface-1: #ffffff;
+  --surface-2: #f6f8fc;
+  --surface-3: #e8eef8;
+  --bg: var(--bg-color);
+  --text: var(--text-color);
+  --text-soft: #5c6b82;
+  --border: var(--border-color);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --brand: #276ef1;
+  --brand-soft: rgba(39, 110, 241, 0.12);
+  --brand-soft-text: #276ef1;
+  --success: #0f9d74;
+  --warning: #c28c13;
+  --danger: #d9465a;
+  --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 18px 32px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 28px 55px rgba(15, 23, 42, 0.14);
+  --page-gradient:
+    radial-gradient(circle at 10% -10%, rgba(39, 110, 241, 0.12), transparent 28%),
+    radial-gradient(circle at 92% 0%, rgba(28, 140, 186, 0.08), transparent 26%),
+    linear-gradient(180deg, #f8fbff 0%, #edf2fb 100%);
 }
 
 * {
@@ -27,13 +71,12 @@ body,
 }
 
 body {
-  font-family: "Segoe UI", "Inter", sans-serif;
-  background:
-    radial-gradient(circle at 18% 0%, rgba(41, 97, 180, 0.25), transparent 28%),
-    radial-gradient(circle at 86% 0%, rgba(16, 93, 143, 0.25), transparent 28%),
-    var(--bg);
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background: var(--page-gradient), var(--bg-color);
   color: var(--text);
-  line-height: 1.45;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 a {
@@ -46,4 +89,32 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+body,
+.app-shell,
+.app-content,
+.topbar,
+.sidebar,
+.stat-card,
+.task-card-modern,
+.dashboard-surface,
+.dashboard-modal-card,
+.dashboard-modal-grid input,
+.dashboard-modal-grid select,
+.empty-state-card,
+.tasks-notification-card {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
 }

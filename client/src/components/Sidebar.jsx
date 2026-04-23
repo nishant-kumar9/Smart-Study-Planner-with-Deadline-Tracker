@@ -8,7 +8,7 @@ import {
 } from "react-icons/hi2";
 import "./Sidebar.css";
 
-function Sidebar({ isOpen, onNavigate }) {
+function Sidebar({ collapsed, mobileOpen, onNavigate }) {
 
   const menu = [
     { name: "Dashboard", path: "/dashboard", icon: <HiOutlineSquares2X2 /> },
@@ -23,7 +23,7 @@ function Sidebar({ isOpen, onNavigate }) {
   ];
 
   return (
-    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+    <aside className={`sidebar ${collapsed ? "collapsed" : ""} ${mobileOpen ? "open" : ""}`}>
       <p className="sidebar-label">Workspace</p>
 
       {menu.map((item) => (
@@ -36,7 +36,7 @@ function Sidebar({ isOpen, onNavigate }) {
           }
         >
           <span className="sidebar-icon">{item.icon}</span>
-          {item.name}
+          <span className="sidebar-text">{item.name}</span>
         </NavLink>
       ))}
     </aside>

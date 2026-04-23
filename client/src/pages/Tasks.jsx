@@ -10,11 +10,6 @@ import {
   fetchTasksApi,
   updateTaskApi,
 } from "../services/taskService";
-import {
-  classifyTaskAlerts,
-  notifyTaskAlerts,
-  requestNotificationPermission,
-} from "../services/reminderService";
 import { buildRecurringPayloads } from "../utils/taskRecurrence";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import "./Tasks.css";
@@ -66,9 +61,6 @@ function Tasks() {
   const [loading, setLoading] = useState(true);
   const [updatingTaskId, setUpdatingTaskId] = useState(null);
   const [deletingTaskId, setDeletingTaskId] = useState(null);
-  const [notificationPermission, setNotificationPermission] = useState(
-    typeof Notification !== "undefined" ? Notification.permission : "unsupported"
-  );
   const [filters, setFilters] = useState(defaultFilters);
   const [saveViewName, setSaveViewName] = useState("");
   const [savedViews, setSavedViews] = useState(() => {
@@ -195,15 +187,6 @@ function Tasks() {
     }
   };
 
-  const enableReminderNotifications = async () => {
-    const permission = await requestNotificationPermission();
-    setNotificationPermission(permission);
-
-    if (permission === "granted") {
-      notifyTaskAlerts(tasks);
-    }
-  };
-
   const saveCurrentView = () => {
     const trimmed = saveViewName.trim();
 
@@ -275,13 +258,30 @@ function Tasks() {
 
   const subjects = [...new Set(tasks.map((task) => task.subject).filter(Boolean))].sort();
 
-  const { dueToday, overdue } = classifyTaskAlerts(tasks);
+  const { dueToday, overdue } = tasks.reduce(
+    (accumulator, task) => {
+      const deadline = task.deadline ? new Date(task.deadline) : null;
+      const today = new Date();
 
-  useEffect(() => {
-    if (notificationPermission === "granted") {
-      notifyTaskAlerts(tasks);
-    }
-  }, [tasks, notificationPermission]);
+      if (deadline && task.status !== "completed") {
+        const sameDay =
+          deadline.getFullYear() === today.getFullYear() &&
+          deadline.getMonth() === today.getMonth() &&
+          deadline.getDate() === today.getDate();
+
+        if (sameDay) {
+          accumulator.dueToday.push(task);
+        }
+
+        if (deadline < today) {
+          accumulator.overdue.push(task);
+        }
+      }
+
+      return accumulator;
+    },
+    { dueToday: [], overdue: [] }
+  );
 
   const completed = tasks.filter((task) => task.status === "completed").length;
   const pending = tasks.length - completed;
@@ -310,24 +310,8 @@ function Tasks() {
         <StatCard label="Due Today" value={dueToday.length} tone="warning" />
         <StatCard label="Overdue" value={overdue.length} tone="danger" />
         <div className="tasks-notification-card">
-          <h3>Smart Reminders</h3>
-          <p>
-            {notificationPermission === "granted"
-              ? "Browser reminders are enabled."
-              : "Enable notifications for due today and overdue task alerts."}
-          </p>
-          <button
-            type="button"
-            className="notify-btn"
-            onClick={enableReminderNotifications}
-            disabled={notificationPermission === "granted" || notificationPermission === "unsupported"}
-          >
-            {notificationPermission === "unsupported"
-              ? "Notifications Not Supported"
-              : notificationPermission === "granted"
-                ? "Notifications Enabled"
-                : "Enable Notifications"}
-          </button>
+          <h3>Focus Summary</h3>
+          <p>Quickly review what needs attention today and what is already overdue.</p>
         </div>
       </div>
 

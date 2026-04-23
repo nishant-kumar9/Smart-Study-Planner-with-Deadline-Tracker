@@ -1,12 +1,19 @@
 .sidebar {
   width: 244px;
-  border-right: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(17, 25, 42, 0.98), rgba(12, 19, 33, 0.98));
+  border-right: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, var(--card-color), var(--surface-2));
   padding: 1.2rem 0.9rem;
   position: sticky;
   top: 72px;
   height: calc(100vh - 72px);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  transition: width 0.25s ease, transform 0.25s ease, padding 0.25s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 84px;
+  padding-inline: 0.45rem;
 }
 
 .sidebar-item {
@@ -14,27 +21,46 @@
   align-items: center;
   gap: 0.65rem;
   width: 100%;
-  padding: 0.72rem 0.84rem;
+  padding: 0.74rem 0.86rem;
   margin-bottom: 0.45rem;
-  border-radius: 0.75rem;
+  border-radius: 0.84rem;
   color: var(--text-soft);
   cursor: pointer;
   transition: all 0.24s ease;
   border: 1px solid transparent;
 }
 
+.sidebar.collapsed .sidebar-item {
+  justify-content: center;
+  gap: 0;
+  padding-inline: 0.5rem;
+}
+
+.sidebar-text {
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .sidebar-text {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-item:hover {
+  transform: translateX(0);
+}
+
 .sidebar-item:hover {
   color: var(--text);
   border-color: var(--border);
-  background: rgba(33, 48, 73, 0.55);
+  background: var(--surface-3);
   transform: translateX(4px);
 }
 
 .sidebar-item.active {
   color: #f5f9ff;
-  border-color: rgba(95, 179, 255, 0.45);
-  background: linear-gradient(130deg, rgba(77, 168, 255, 0.25), rgba(77, 168, 255, 0.08));
-  box-shadow: 0 8px 24px rgba(7, 18, 35, 0.35);
+  border-color: rgba(95, 179, 255, 0.54);
+  background: linear-gradient(130deg, rgba(77, 168, 255, 0.26), rgba(77, 168, 255, 0.1));
+  box-shadow: 0 12px 24px rgba(7, 18, 35, 0.36);
 }
 
 .sidebar-icon {
@@ -44,10 +70,10 @@
 
 .sidebar-label {
   color: var(--text-soft);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 0.35rem 0.5rem 0.75rem;
+  letter-spacing: 0.14em;
+  margin: 0.35rem 0.5rem 0.85rem;
 }
 
 @media (max-width: 980px) {
@@ -59,9 +85,21 @@
     transform: translateX(-106%);
     transition: transform 0.3s ease;
     box-shadow: var(--shadow-lg);
+    width: 244px;
+    padding-inline: 0.9rem;
   }
 
   .sidebar.open {
     transform: translateX(0);
+  }
+
+  .sidebar.collapsed {
+    width: 244px;
+    padding-inline: 0.9rem;
+  }
+
+  .sidebar.collapsed .sidebar-label,
+  .sidebar.collapsed .sidebar-text {
+    display: block;
   }
 }

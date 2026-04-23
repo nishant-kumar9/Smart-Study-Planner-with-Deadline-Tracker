@@ -1,25 +1,55 @@
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import "./Layout.css";
-import { useState } from "react";
 
 function Layout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 980px)");
+
+    const handleChange = (event) => {
+      if (!event.matches) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const closeSidebar = () => {
-    setSidebarOpen(false);
+    setMobileSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    if (window.matchMedia("(max-width: 980px)").matches) {
+      setMobileSidebarOpen((currentValue) => !currentValue);
+      return;
+    }
+
+    setSidebarCollapsed((currentValue) => !currentValue);
   };
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       <Topbar
-        sidebarOpen={sidebarOpen}
-        onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+        sidebarCollapsed={sidebarCollapsed}
+        mobileSidebarOpen={mobileSidebarOpen}
+        onToggleSidebar={toggleSidebar}
       />
 
       <div className="app-shell-main">
-        <Sidebar isOpen={sidebarOpen} onNavigate={closeSidebar} />
-        {sidebarOpen && <div className="sidebar-backdrop" onClick={closeSidebar} />}
+        <Sidebar
+          collapsed={sidebarCollapsed}
+          mobileOpen={mobileSidebarOpen}
+          onNavigate={closeSidebar}
+        />
+        {mobileSidebarOpen && <div className="sidebar-backdrop" onClick={closeSidebar} />}
 
         <div className="app-content-wrap">
           <main className="app-content">{children}</main>

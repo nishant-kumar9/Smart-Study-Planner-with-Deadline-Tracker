@@ -1,9 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { HiOutlineBars3, HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
+import {
+  HiOutlineArrowRightOnRectangle,
+  HiOutlineBars3,
+  HiOutlineMoon,
+  HiOutlineSun,
+} from "react-icons/hi2";
+import { useTheme } from "../context/ThemeContext";
 import "./Topbar.css";
 
-function Topbar({ sidebarOpen, onToggleSidebar }) {
+function Topbar({ sidebarCollapsed, mobileSidebarOpen, onToggleSidebar }) {
   const navigate = useNavigate();
+  const { isDark, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -22,7 +29,7 @@ function Topbar({ sidebarOpen, onToggleSidebar }) {
       <div className="topbar-left">
         <button
           type="button"
-          className={`menu-btn ${sidebarOpen ? "active" : ""}`}
+          className={`menu-btn ${sidebarCollapsed || mobileSidebarOpen ? "active" : ""}`}
           onClick={onToggleSidebar}
           aria-label="Toggle sidebar"
         >
@@ -37,6 +44,9 @@ function Topbar({ sidebarOpen, onToggleSidebar }) {
 
       <div className="topbar-right">
         <p className="date-pill">{today}</p>
+        <button type="button" className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
+          {isDark ? <HiOutlineSun /> : <HiOutlineMoon />}
+        </button>
         <button className="profile-btn" onClick={() => navigate("/profile")}>Profile</button>
         <button onClick={handleLogout} className="logout" type="button">
           <HiOutlineArrowRightOnRectangle />

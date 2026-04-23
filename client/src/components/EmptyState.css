@@ -1,0 +1,53 @@
+.empty-state-card {
+  border: 1px dashed rgba(91, 163, 230, 0.45);
+  border-radius: 0.95rem;
+  background: var(--surface-1);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  padding: 1.45rem 0.9rem;
+}
+
+.empty-state-card.compact {
+  padding: 1rem 0.75rem;
+}
+
+.empty-state-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(95, 179, 255, 0.35);
+  color: #cae5ff;
+  background: rgba(67, 137, 200, 0.17);
+  font-size: 1.5rem;
+}
+
+.empty-state-card h3 {
+  font-size: 1rem;
+}
+
+.empty-state-card p {
+  color: var(--text-soft);
+  max-width: 42ch;
+  font-size: 0.88rem;
+}
+
+.empty-state-action {
+  margin-top: 0.25rem;
+  border: 1px solid rgba(95, 179, 255, 0.4);
+  border-radius: 0.72rem;
+  min-height: 36px;
+  padding: 0.4rem 0.8rem;
+  color: #dceeff;
+  background: rgba(67, 137, 200, 0.16);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.empty-state-action:hover {
+  transform: translateY(-1px);
+  background: rgba(67, 137, 200, 0.22);
+}

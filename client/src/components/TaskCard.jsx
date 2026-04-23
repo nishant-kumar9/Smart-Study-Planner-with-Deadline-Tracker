@@ -1,7 +1,16 @@
 import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import "./TaskCard.css";
 
-function TaskCard({ task, onToggleStatus, onDelete, isUpdating, isDeleting }) {
+function TaskCard({
+  task,
+  onToggleStatus,
+  onDelete,
+  onEdit,
+  isUpdating,
+  isDeleting,
+  isCompact = false,
+}) {
   const priority = (task.priority || "Low").toLowerCase();
   const isCompleted = task.status === "completed";
   const deadlineText = task.deadline
@@ -13,8 +22,18 @@ function TaskCard({ task, onToggleStatus, onDelete, isUpdating, isDeleting }) {
     : "No deadline";
 
   return (
-    <article className={`task-card-modern ${isCompleted ? "completed" : ""}`}>
+    <article className={`task-card-modern ${isCompleted ? "completed" : ""} ${isCompact ? "compact" : ""}`}>
       <div className="task-card-top">
+        <label className="task-toggle-control" aria-label={`Toggle ${task.title} completion status`}>
+          <input
+            type="checkbox"
+            checked={isCompleted}
+            onChange={() => onToggleStatus(task)}
+            disabled={isUpdating || isDeleting}
+          />
+          <span />
+        </label>
+
         <h3>{task.title}</h3>
         <span className={`priority-chip ${priority}`}>{task.priority || "Low"}</span>
       </div>
@@ -32,22 +51,30 @@ function TaskCard({ task, onToggleStatus, onDelete, isUpdating, isDeleting }) {
       </div>
 
       <div className="task-actions-row">
-        <button
-          type="button"
-          className="task-toggle-btn"
-          onClick={() => onToggleStatus(task)}
-          disabled={isUpdating || isDeleting}
-        >
-          {isUpdating ? "Updating..." : isCompleted ? "Mark as Pending" : "Mark as Completed"}
-        </button>
+        <p className="task-action-status">
+          {isUpdating ? "Saving..." : isCompleted ? "Completed" : "Pending"}
+        </p>
+
+        {onEdit ? (
+          <button
+            type="button"
+            className="task-icon-btn"
+            onClick={() => onEdit(task)}
+            disabled={isUpdating || isDeleting}
+            aria-label={`Edit ${task.title}`}
+          >
+            <HiOutlinePencilSquare />
+          </button>
+        ) : null}
 
         <button
           type="button"
-          className="task-delete-btn"
+          className="task-icon-btn task-delete-btn"
           onClick={() => onDelete(task)}
           disabled={isUpdating || isDeleting}
+          aria-label={`Delete ${task.title}`}
         >
-          {isDeleting ? "Deleting..." : "Delete"}
+          {isDeleting ? "..." : <HiOutlineTrash />}
         </button>
       </div>
     </article>
