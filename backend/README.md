@@ -2,6 +2,12 @@
 
 Backend API server for the Smart Study Planner with Deadlines project.
 
+## Live Links
+
+- Backend: https://smart-study-planner-with-deadline-tracker.onrender.com
+- Frontend: https://smart-study-planner-with-deadline-t.vercel.app
+- GitHub: https://github.com/nishant-kumar9/Smart-Study-Planner-with-Deadline-Tracker
+
 ## Overview
 
 This backend is built with Node.js + Express and provides:

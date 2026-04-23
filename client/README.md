@@ -2,6 +2,12 @@
 
 Frontend application for the Smart Study Planner with Deadlines project.
 
+## Live Links
+
+- Frontend: https://smart-study-planner-with-deadline-t.vercel.app
+- Backend: https://smart-study-planner-with-deadline-tracker.onrender.com
+- GitHub: https://github.com/nishant-kumar9/Smart-Study-Planner-with-Deadline-Tracker
+
 ## Overview
 
 This client is built with React + Vite and provides the full user experience for:
