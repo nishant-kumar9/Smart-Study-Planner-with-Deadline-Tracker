@@ -1,5 +1,5 @@
 .empty-state-card {
-  border: 1px dashed rgba(91, 163, 230, 0.45);
+  border: 1px dashed var(--border);
   border-radius: 0.95rem;
   background: var(--surface-1);
   display: grid;
@@ -19,9 +19,9 @@
   border-radius: 14px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(95, 179, 255, 0.35);
-  color: #cae5ff;
-  background: rgba(67, 137, 200, 0.17);
+  border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--border));
+  color: var(--brand);
+  background: var(--brand-soft);
   font-size: 1.5rem;
 }
 
@@ -37,17 +37,17 @@
 
 .empty-state-action {
   margin-top: 0.25rem;
-  border: 1px solid rgba(95, 179, 255, 0.4);
+  border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--border));
   border-radius: 0.72rem;
   min-height: 36px;
   padding: 0.4rem 0.8rem;
-  color: #dceeff;
-  background: rgba(67, 137, 200, 0.16);
+  color: var(--brand-soft-text);
+  background: var(--brand-soft);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .empty-state-action:hover {
   transform: translateY(-1px);
-  background: rgba(67, 137, 200, 0.22);
+  background: color-mix(in srgb, var(--brand) 18%, var(--surface-2));
 }

@@ -154,6 +154,84 @@
   margin-top: 0.95rem;
 }
 
+:root[data-theme="light"] .dashboard-header,
+.light .dashboard-header {
+  background: var(--surface-1);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] .dashboard-eyebrow,
+.light .dashboard-eyebrow {
+  color: var(--brand);
+}
+
+:root[data-theme="light"] .dashboard-header h1,
+.light .dashboard-header h1 {
+  color: var(--text-strong);
+}
+
+:root[data-theme="light"] .dashboard-header p,
+.light .dashboard-header p {
+  color: var(--text-soft);
+}
+
+:root[data-theme="light"] .dashboard-primary-btn,
+.light .dashboard-primary-btn {
+  color: #f8fbff;
+  border-color: color-mix(in srgb, var(--brand) 34%, var(--border));
+  background: linear-gradient(140deg, var(--brand), color-mix(in srgb, var(--brand) 78%, #57b3ff));
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--brand) 22%, transparent);
+}
+
+:root[data-theme="light"] .dashboard-ghost-btn,
+.light .dashboard-ghost-btn {
+  background: var(--button-muted-bg);
+  color: var(--button-muted-text);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .dashboard-modal-overlay,
+.light .dashboard-modal-overlay {
+  background: var(--overlay-bg);
+}
+
+:root[data-theme="light"] .dashboard-modal-card,
+.light .dashboard-modal-card {
+  background: var(--surface-1);
+  border-color: var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+:root[data-theme="light"] .dashboard-close-btn,
+.light .dashboard-close-btn {
+  background: var(--button-muted-bg);
+  color: var(--button-muted-text);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .dashboard-modal-grid label,
+.light .dashboard-modal-grid label {
+  color: var(--text-soft);
+}
+
+:root[data-theme="light"] .dashboard-modal-grid input,
+:root[data-theme="light"] .dashboard-modal-grid select,
+.light .dashboard-modal-grid input,
+.light .dashboard-modal-grid select {
+  background: var(--surface-1);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+:root[data-theme="light"] .dashboard-modal-grid input:focus,
+:root[data-theme="light"] .dashboard-modal-grid select:focus,
+.light .dashboard-modal-grid input:focus,
+.light .dashboard-modal-grid select:focus {
+  border-color: color-mix(in srgb, var(--brand) 58%, var(--border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 14%, transparent);
+}
+
 @keyframes overlay-fade {
   from {
     opacity: 0;

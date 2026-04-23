@@ -178,6 +178,81 @@
   font-size: 0.72rem;
 }
 
+:root[data-theme="light"] .dashboard-surface,
+.light .dashboard-surface {
+  background: var(--surface-1);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] .dashboard-section-head h2,
+.light .dashboard-section-head h2 {
+  color: var(--text-strong);
+}
+
+:root[data-theme="light"] .dashboard-section-head p,
+:root[data-theme="light"] .dashboard-muted,
+.light .dashboard-section-head p,
+.light .dashboard-muted {
+  color: var(--text-soft);
+}
+
+:root[data-theme="light"] .dashboard-action-btn,
+.light .dashboard-action-btn {
+  background: var(--button-muted-bg);
+  color: var(--button-muted-text);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .dashboard-action-btn:hover,
+.light .dashboard-action-btn:hover {
+  background: var(--button-muted-hover);
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+}
+
+:root[data-theme="light"] .dashboard-deadline-item,
+:root[data-theme="light"] .dashboard-insight-metrics article,
+:root[data-theme="light"] .dashboard-mini-chart,
+.light .dashboard-deadline-item,
+.light .dashboard-insight-metrics article,
+.light .dashboard-mini-chart {
+  background: var(--surface-1);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .dashboard-deadline-item h3,
+:root[data-theme="light"] .dashboard-insight-metrics h3,
+.light .dashboard-deadline-item h3,
+.light .dashboard-insight-metrics h3 {
+  color: var(--text-strong);
+}
+
+:root[data-theme="light"] .dashboard-deadline-item p,
+:root[data-theme="light"] .dashboard-insight-metrics p,
+.light .dashboard-deadline-item p,
+.light .dashboard-insight-metrics p {
+  color: var(--text-soft);
+}
+
+:root[data-theme="light"] .dashboard-deadline-right span,
+.light .dashboard-deadline-right span {
+  color: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 28%, var(--border));
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+}
+
+:root[data-theme="light"] .urgent-badge,
+.light .urgent-badge {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 34%, var(--border)) !important;
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+:root[data-theme="light"] .dashboard-mini-bar,
+.light .dashboard-mini-bar {
+  box-shadow: 0 8px 14px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
 @media (max-width: 1080px) {
   .dashboard-sections-grid {
     grid-template-columns: 1fr;
